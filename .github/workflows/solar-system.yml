@@ -2,10 +2,10 @@ name: Solar System Workflow
 
 on: 
   workflow_dispatch:
-  push:
-    branches:
-      - main
-      - 'feature/*'
+  # push:
+  #   branches:
+  #     - main
+  #     - 'feature/*'
 
 env:
   MONGO_URI: 'mongodb+srv://supercluster.d83jj.mongodb.net/superData'
@@ -36,9 +36,11 @@ jobs:
           run: npm install
 
         - name: Unit Testing
+          id: nodejs-unit-testing-step
           run: npm test
         
         - name: Archive Test Result
+          if: steps.nodejs-unit-testing-step.outcome == 'failure' || steps.nodejs-unit-testing-step.outcome == 'success'
           uses: actions/upload-artifact@v3
           with:
             name: Mocha-Test-Result
