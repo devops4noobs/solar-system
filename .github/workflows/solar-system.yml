@@ -148,10 +148,12 @@ jobs:
                 ${{ vars.DOCKERHUB_USERNAME }}/solar-system:${{ github.sha }}
               # ghcr.io/${{ github.repository_owner }}/solar-system:${{ github.sha }}
     dev-deploy:
-      needs: docker
-      runs-on: ubuntu:latest
+      name: docker
+      permissions:
+        packages: write
+      runs-on: ubuntu-latest
       steps:
-        - name: Checkout repo
+        - name: Checkout Repo
           uses: actions/checkout@v4
           
         # - name: Install kubectl CLI
@@ -185,15 +187,15 @@ jobs:
         # - name: Check files
         #   run: cat kubernetes/development/*.yaml
 
-        - name: Create MongoDB secret
-          run: |
-            kubectl -n {{vars.NAMESPACE}} create secret generic mongo-db-creds \
-            --from-literal=MONDO_URI=${{env.MONGO_URI}}
-            --from-literal=MONDO_USERNAME=${{env.MONGO_USERNAME}}
-            --from-literal=MONDO_PASSWORD=${{env.MONGO_PASSWORD}}
-            --save-config \
-            --dry-run=client \
-            -oyaml | kubectl apply -f -
+        # - name: Create MongoDB secret
+        #   run: |
+        #     kubectl -n {{vars.NAMESPACE}} create secret generic mongo-db-creds \
+        #     --from-literal=MONDO_URI=${{env.MONGO_URI}}
+        #     --from-literal=MONDO_USERNAME=${{env.MONGO_USERNAME}}
+        #     --from-literal=MONDO_PASSWORD=${{env.MONGO_PASSWORD}}
+        #     --save-config \
+        #     --dry-run=client \
+        #     -oyaml | kubectl apply -f -
 
         # - name: Deploy to Dev env
         #   run: |
