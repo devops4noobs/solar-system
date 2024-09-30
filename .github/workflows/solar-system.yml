@@ -171,9 +171,9 @@ jobs:
         
         - name: Fetch kubernetes cluster details
           run: |
-            kubectl version
+            sudo kubectl version
             echo ------------------------------------
-              kubectl get nodes
+            sudo kubectl get nodes
 
         - uses: cschleiden/replace-tokens@v1
           with:
@@ -198,6 +198,6 @@ jobs:
             --dry-run=client \
             -oyaml | kubectl apply -f -
 
-        - name: Deploy to Dev env
-          run: |
-            kubectl apply -f kubernetes/deployment.yaml
+        # - name: Deploy to Dev env
+        #   run: |
+        #     kubectl apply -f kubernetes/deployment.yaml
