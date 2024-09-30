@@ -155,33 +155,37 @@ jobs:
         - name: Checkout repo
           uses: actions/checkout@v4
           
-        - name: Install kubectl CLI
-          uses: azure/setup-kubectl@v4
-          with:
-            version: 'v1.31.0'
+        # - name: Install kubectl CLI
+        #   uses: azure/setup-kubectl@v4
+        #   with:
+        #     version: 'v1.31.0'
 
-        - name: set kubeconfig
-          uses: azure/k8s-set-context@v4
-          with:
-            method: kubeconfig
-            kubeconfig: ${{ secrets.KUBECONFIG }}
+        # - name: set kubeconfig
+        #   uses: azure/k8s-set-context@v4
+        #   with:
+        #     method: kubeconfig
+        #     kubeconfig: ${{ secrets.KUBECONFIG }}
  
         
-        - name: Fetch kubernetes cluster details
-          run: |
-            kubectl version --short
-            echo ------------------------------------
-              kubectl get nodes
+        # - name: Fetch kubernetes cluster details
+        #   run: |
+        #     kubectl version --short
+        #     echo ------------------------------------
+        #       kubectl get nodes
 
-        - uses: cschleiden/replace-tokens@v1
-          with:
-            tokenPrefix: '{'
-            tokenSuffix: '}'
-            files: '["kubernetes/development/*.yaml"]'
-          env:
-            NAMESPACE: ${{vars.NAMESPACE}}
-            REPLICAS: ${{vars.REPLICAS}}
-            IMAGE: ${{env.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
+        # - uses: cschleiden/replace-tokens@v1
+        #   with:
+        #     tokenPrefix: '{'
+        #     tokenSuffix: '}'
+        #     files: '["kubernetes/development/*.yaml"]'
+        #   env:
+        #     NAMESPACE: ${{vars.NAMESPACE}}
+        #     REPLICAS: ${{vars.REPLICAS}}
+        #     IMAGE: ${{env.DOCKERHUB_USERNAME}}/solar-system:${{github.sha}}
 
-        - name: Check files
-          run: cat kubernetes/development/*.yaml
+        # - name: Check files
+        #   run: cat kubernetes/development/*.yaml
+
+        # - name: Deploy to Dev env
+        #   run: |
+        #     kubectl apply -f kubernetes/deployment.yaml
