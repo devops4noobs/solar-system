@@ -91,6 +91,8 @@ jobs:
         name: Containerization
         permissions:
           packages: write
+        environment: 
+          name: dev
         runs-on: ubuntu-latest
         steps:
         - name: Checkout Repo
@@ -147,7 +149,7 @@ jobs:
               tags: | 
                 ${{ vars.DOCKERHUB_USERNAME }}/solar-system:${{ github.sha }}
               # ghcr.io/${{ github.repository_owner }}/solar-system:${{ github.sha }}
-        - name: test 
+        - name: test
           run: echo ${{vars.TEST}}
     # dev-deploy:
     #   name: Deploy to Dev env
